@@ -1,0 +1,5 @@
+node_modules/
+preview/
+*.zip
+_materiaali/
+.DS_Store
