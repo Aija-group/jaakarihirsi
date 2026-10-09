@@ -9,32 +9,30 @@ Y-tunnus 2386106-5 · Puusepäntie 32, 62420 Kortesjärvi · 045 119 7289 · inf
 - `HOSTING=netlify python3 build.py --preview --artifact` → `preview/` (Claude-artifakti). Aja lopuksi oletus-build.
 - Paikallinen testaus: `MAIL_DRYRUN=1 PORT=8995 node server.js`.
 
-## Rakenne (14 sivua / kieli, 28 indeksoitavaa)
+## Rakenne (13 sivua / kieli, 26 indeksoitavaa)
 | Suomi | Svenska | Sisältö |
 |---|---|---|
 | `/` | `/sv/` | etusivu |
-| `/pihasaunat/` | `/sv/gardsbastur/` | Tuomas 10 / 15 / 20 |
+| `/pihasaunat/` | `/sv/gardsbastur/` | Tuomas 15 ja 20 + toteutusgalleria |
 | `/piharakennukset/` | `/sv/gardsbyggnader/` | koontisivu |
 | `/piharakennukset/pihavarastot/` | `…/forrad/` | pihavarasto + puulato |
-| `/piharakennukset/huvimajat/` | `…/lusthus/` | 6- ja 8-kulmaiset |
 | `/piharakennukset/leikkimokit/` | `…/lekstugor/` | leikkimökki + hiekkalaatikko |
 | `/piharakennukset/ulko-wc/` | `…/utedass/` | ulkovessat |
 | `/piharakennukset/roskakatokset/` | `…/sopskjul/` | roskakatokset |
-| `/hirsikalusteet/` | `/sv/timmermoebler/` | keinut + puutarhakalusteet |
+| `/hirsikalusteet/` | `/sv/timmermoebler/` | hirsipöytäsarjat |
 | `/pihakoristeet/` | `/sv/gardsdekorationer/` | maitolaituri, koristekaivo, postilaatikkoteline |
 | `/tarjouspyynto/` | `/sv/offert/` | tarjousvelho |
-| `/yritys/` | `/sv/foretaget/` | materiaalit, toimitustavat, kartta |
+| `/yritys/` | `/sv/foretaget/` | materiaalit, toimitustavat |
 | `/yhteystiedot/` | `/sv/kontakt/` | |
-| `/tietosuoja/` | `/sv/dataskydd/` | |
+| `/tietosuoja/` | `/sv/dataskydd/` | sis. Cookiebot-evästeseloste |
 
-Vanhat osoitteet säilyivät (Duda ilman kauttaviivaa → server.js lisää kauttaviivan 301:llä). `/evasteet` → `/tietosuoja/`. Kanoninen **www.jaakarihirsi.com** (kuten vanhalla sivulla). hreflang fi/sv + sitemap.
+Vanhat osoitteet säilyivät. `/evasteet` → `/tietosuoja/#evasteet`. Kanoninen **www.jaakarihirsi.com**. hreflang fi/sv + sitemap.
 
-**Miksi tämä jako:** pihasauna, pihavarasto/puuvaja, huvimaja, leikkimökki, ulko-WC ja roskakatos ovat erikseen haettuja tuotteita → omat sivut. Puulato ja pihavarasto ovat samaa hakuaihetta, hiekkalaatikko kuuluu leikkimökkien kanssa samaan ostotilanteeseen, keinut + kalusteet ja pihakoristeet ovat pieniä tuotteita, joille riittää yksi sivu.
+**Asiakkaan muutokset 9.10.2026:** poistettu kärrysauna Tuomas 10, huvimajat ja keinut. Hirsikoot 45 × 145 ja 70 × 145 mm, ulkovuoripaneeli 20 × 95 tai 20 × 120 mm (58 mm pois). Pystytystä ei tehdä eikä kilometrirajaa mainita: toimitus joko valmiiksi koottuna (avaimet käteen) tai runkona osina. Pihavarasto 45 × 145 hirsi tai 20 × 95 paneeli.
 
 ## Myyntiä tukevat toiminnot
 - **Tarjousvelho** (`/tarjouspyynto/`): tuote kuvakortilla → malli, mitat, runko, katto, lisävalinnat → toimitustapa ja paikkakunta. Sivupaneeli piirtää **pohjakuvan mitoilla ja pinta-alalla** (sauna: löylyhuone + pukuhuone + terassi/kuisti, huvimaja: kahdeksankulmio, roskakatos: astioiden määrä) ja näyttää alkaen-hinnan. Tuotesivujen napit esivalitsevat tuotteen ja mallin (`?tuote=pihasauna&malli=…`).
-- **Alkaen-hinnat vain siellä, missä asiakas on ne itse ilmoittanut** (mallikohtaisesti). Tuoteryhmän kortissa hinta näkyy vain, jos kaikilla ryhmän malleilla on ilmoitettu hinta – esim. pihasaunoissa ei, koska Tuomas 10:n hinta puuttuu. Velho ei laske yhteen eikä arvioi hintoja. `SHOW_PRICES` content.py:ssä piilottaa kaikki.
-- **Toimitusaluekartta**: 200 km säde Kortesjärveltä + pientavarat koko Suomeen.
+- **Alkaen-hinnat asiakkaan listan mukaan (9.10.2026):** sauna 7 500 €, leikkimökki 1 500 €, maitolaituri 500 €, postilaatikkoteline 120 €, varasto 2 700 €, hirsipöytäsarja 400 €, koristekaivo 450 €, roskakatos 550 €, puulato 2 000 €, ulko-WC 1 200 €. Tuoteryhmän hinta `from`-kentässä (content.py), mallihinnat malleissa; hiekkalaatikolla ei hintaa. Velho ei laske yhteen eikä arvioi hintoja. `SHOW_PRICES` piilottaa kaikki.
 - Mallikohtaiset kuvagalleriat lightboxilla, FAQ (FAQPage-schema), soitto + tarjous -palkki mobiilissa.
 - Lomakkeet `yhteydenotto` ja `tarjous` → info@jaakarihirsi.com (NordicHostissa SMTP_*-muuttujat). Ruotsinkielinen lomake ohjaa `/sv/tack/`, aiherivillä "(svenska)".
 
@@ -48,16 +46,14 @@ Asiakkaan markkinointikumppani Groweo on asentanut vanhalle sivulle nämä, ja n
 - **Groweolle tiedoksi:** sivupolut ja lomakkeet muuttuvat (uusi tarjousvelho `/tarjouspyynto/`, kiitossivut `/kiitos/` ja `/sv/tack/`) → GTM-konversiotagit kannattaa tarkistaa julkaisun jälkeen.
 
 ## Kuvat
-63 asiakkaan omaa kuvaa vanhalta sivulta (kaikki tuotekuvat). Ne ovat pieniä (640 px) → käytetty vain malligallerioissa ja korteissa.
-Higgsfield-kuvat (gpt_image_2_5, nimessä `-ai`): hero-järvisauna, talvisauna, saunan sisäkuva, pihavarasto, huvimaja, leikkimökki, ulko-WC, roskakatos, maitolaituri, työpaja. Rakennukset pyydetty höylähirtenä (ei pyöröhirttä), jotta ne vastaavat asiakkaan tuotteita.
-Logo: vanhan logon mukainen sanamerkki JÄÄKÄRIHIRSI + vihreä hirsipalkki (#31714b, logon vihreä). Favicon = kolme hirttä.
+Kaikki kuvat ovat asiakkaan omia: 87 kuvaa asiakkaan Drive-kansiosta 9.10.2026 (`_materiaali/` ei repossa) + 4 vanhalta sivulta (hiekkalaatikko, puulato-1/2, vanha postilaatikkoteline). Tekoälykuvat poistettu kokonaan (Äijä Groupin linjaus: ei AI-rakennuksia). Kuvat skaalattu max 1800 px.
+Drive-kuvien tiedostonimet olivat satunnaisia (esim. "kkkk.jpeg") → lajiteltu tuotteittain silmämääräisesti. 3 kuvaa jätetty pois tekstipäällysteen vuoksi (asdf, ddddd, dsa).
 
 ## Vahvistettavaa asiakkaalta
-1. **Hinnat**: alkaen-hinnat ovat vanhan sivun RUOTSINKIELISISTÄ versioista (Tuomas 15 5 600 €, Tuomas 20 5 800 €, puulato 1 400 €, pihavarasto 1 890 €, huvimaja 2 100 €, leikkimökki 950 €, WC 880 €, maitolaituri 650 €, koristekaivo 585 €, roskakatos 600 €, postilaatikkoteline 180 €, hiekkalaatikko 145 €, lasten keinu 580 €). Suomenkielisiltä sivuilta ne puuttuivat – ovatko ajan tasalla? Tuomas 10:n ja puutarhakalusteiden hinta puuttuu.
-2. **Saunamallien mitat** (Tuomas 10/15/20) – sivulla ei ole kokoja, koska niitä ei ollut vanhallakaan sivulla. Mallien lyhyet kuvaukset (kuisti/terassi) on päätelty kuvista.
-3. **Verkkokauppa** jaakarihirsi.vilkasstore.com ei toimi (404, sertifikaattivirhe) → linkit poistettu. Onko kauppa lopetettu?
-4. Toimitusalue "noin 200 km säteellä" ja "pientavarat koko Suomeen" ovat vanhalta sivulta – pätevätkö yhä?
-5. Velhon lisävalinnat (terassi, kuisti, pariovet, ikkuna, maalaus…) ovat toiveita tarjouspyyntöön, eivät lupauksia – tarkista, ettei listalla ole mitään, mitä ette tee.
-6. FAQ:n lupa-vastaus ohjaa kunnan rakennusvalvontaan (ei lupausta luvattomuudesta).
-7. Omia uudempia valokuvia kannattaa pyytää – nykyiset ovat pieniä ja osin vanhoja; AI-kuvat voi korvata oikeilla.
-8. Ennen DNS-muutosta: M365-postin tietueet (MX, autodiscover, SPF, DKIM) talteen Route 53:sta.
+1. **Tuomas 15 / Tuomas 20 -kuvat**: mallien kuvat on valittu Drive-kuvista ulkonäön perusteella (15 = katettu kuisti, 20 = terassi kaiteineen). Tarkista, että oikeat kuvat ovat oikean mallin alla.
+2. **Postilaatikkoteline**: Sulon muistiinpanoissa "postilaatikkotelineitä eivät tee", mutta asiakkaan omassa hintalistassa on "Postilaatikkotelineen hinnat alkaen 120 €" ja Drivessä on kuva telineestä → jätetty sivulle. Poistetaan, jos ei tehdä.
+3. **Saunamallien mitat** (Tuomas 15/20): sivulla ei kokoja.
+4. **Puulato**: runko 50 × 125 mm kevythirsi ja lattia 22 × 100 mm ovat vanhalta sivulta (ei muutettu).
+5. **Verkkokauppa** vilkasstore ei toimi → linkit poistettu.
+6. Velhon lisävalinnat (terassi, kuisti, pariovet, ikkuna, maalaus…) ovat toiveita tarjouspyyntöön, eivät lupauksia.
+7. Ennen DNS-muutosta: M365-postin tietueet (MX, autodiscover, SPF, DKIM) talteen Route 53:sta.

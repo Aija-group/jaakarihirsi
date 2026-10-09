@@ -195,7 +195,7 @@
     var del = $('input[name=toimitus]:checked', form);
     if (del) items.push([Lb.delivery, del.value]);
     dl.innerHTML = items.filter(function (x) { return x[1]; }).map(function (x) { return '<div><dt>' + esc(x[0]) + '</dt><dd>' + esc(x[1]) + '</dd></div>'; }).join('');
-    var m = selModel(), price = (m && cur.t !== 'count') ? m.p : cur.p;
+    var m = selModel(), price = (m && cur.t !== 'count') ? (m.np ? null : (m.p || cur.p)) : cur.p;
     if (cur.t === 'count' && ms.length) {
       var ps = $$('input[name=malli]:checked', form).map(function (c) { return cur.m[+c.dataset.i].p; });
       price = ps.length === 1 ? ps[0] : null;

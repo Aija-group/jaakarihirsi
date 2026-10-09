@@ -146,7 +146,7 @@ body.home .hdr-in { box-shadow: 0 10px 30px rgba(0, 0, 0, .18); }
 .tile-b h3 { font-size: 19px; }
 .tile-b p { color: var(--mut); font-size: 15px; line-height: 1.5; margin: 6px 0 14px; }
 .tile-b .price { margin-top: auto; }
-.tiles-sm { grid-template-columns: repeat(7, 1fr); gap: 12px; }
+.tiles-sm { grid-template-columns: repeat(6, 1fr); gap: 12px; }
 .tiles-sm .tile-b { padding: 12px 14px 14px; }
 .tiles-sm .tile-b h3 { font-size: 15px; }
 .tiles-sm .tile-b p, .tiles-sm .price { display: none; }
@@ -426,3 +426,11 @@ body.home .hdr-in { box-shadow: 0 10px 30px rgba(0, 0, 0, .18); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .rv { opacity: 1; transform: none; }
 }
+
+/* Kuvagalleria (toteutuksia) */
+.gal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.gal .g { display: block; border-radius: 14px; overflow: hidden; aspect-ratio: 4 / 3; background: var(--alt); cursor: zoom-in; }
+.gal .g img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.gal .g:hover img { transform: scale(1.04); }
+.why-img img { aspect-ratio: 4 / 3.4; }
+@media (max-width: 700px) { .gal { grid-template-columns: 1fr 1fr; gap: 8px; } }

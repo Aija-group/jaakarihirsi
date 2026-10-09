@@ -17,7 +17,7 @@ import zipfile
 
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
-from content import BUILDINGS, COMPANY, PROD, PRODUCTS, REDIRECTS, SHOW_PRICES, T
+from content import BUILDINGS, COMPANY, ITEM_PRICES, PROD, PRODUCTS, REDIRECTS, SHOW_PRICES, T
 os.environ.setdefault("HOSTING", "nordichost")
 from hosting import HOSTING, form_attrs, hidden_fields, write_host_files
 
@@ -153,6 +153,10 @@ def _resize_set(name, path):
 
 def build_images():
     os.makedirs(IMG_OUT, exist_ok=True)
+    for f in os.listdir(IMG_OUT):  # poista kuvat, joiden lähde on poistettu
+        base = re.sub(r"-\d+\.webp$", "", f[1:-5] if f.startswith(".") and f.endswith(".json") else f)
+        if f not in ("og.jpg", "logo-512.png") and base not in IMG_SRC:
+            os.remove(os.path.join(IMG_OUT, f))
     for name, path in IMG_SRC.items():
         _resize_set(name, path)
 
@@ -194,7 +198,10 @@ def price_html(price, cls="price"):
 
 def cat_price(key):
     """Tuoteryhmän alkaen-hinta vain, jos jokaisella mallilla on asiakkaan ilmoittama hinta (ei johdettuja hintoja)."""
-    ps = [m[3] for m in T["fi"]["P"][key]["models"]]
+    P = T["fi"]["P"][key]
+    if P.get("from"):
+        return P["from"]
+    ps = [m[3] for m in P["models"]]
     return min(ps) if ps and all(ps) else None
 
 
@@ -270,16 +277,15 @@ def org_schema():
         "name": COMPANY["name"], "alternateName": "Jääkärihirsi",
         "url": BASE_URL + "/", "telephone": COMPANY["intl"], "email": COMPANY["email"], "image": BASE_URL + "/img/og.jpg",
         "logo": BASE_URL + "/img/logo-512.png", "taxID": COMPANY["ytunnus"],
-        "description": "Hirsirakentaja Kauhavan Kortesjärvellä: pihasaunat, pihavarastot, huvimajat, leikkimökit, ulko-WC:t, roskakatokset, hirsikalusteet ja pihakoristeet mittatilauksena kotimaisesta höylähirrestä.",
+        "description": "Hirsirakentaja Kauhavan Kortesjärvellä: pihasaunat, pihavarastot, leikkimökit, ulko-WC:t, roskakatokset, hirsikalusteet ja pihakoristeet mittatilauksena kotimaisesta höylähirrestä.",
         "address": {"@type": "PostalAddress", "streetAddress": COMPANY["street"], "postalCode": COMPANY["zip"],
                     "addressLocality": COMPANY["city"], "addressRegion": COMPANY["region"], "addressCountry": "FI"},
         "geo": {"@type": "GeoCoordinates", "latitude": COMPANY["geo"][0], "longitude": COMPANY["geo"][1]},
         "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
                                        "opens": "07:00", "closes": "18:00"}],
-        "areaServed": [{"@type": "GeoCircle", "geoMidpoint": {"@type": "GeoCoordinates", "latitude": COMPANY["geo"][0], "longitude": COMPANY["geo"][1]},
-                        "geoRadius": COMPANY["radius"] * 1000}, {"@type": "Country", "name": "Suomi"}],
-        "knowsAbout": ["Pihasauna", "Hirsisauna", "Pihavarasto", "Puuvaja", "Huvimaja", "Leikkimökki", "Ulko-WC", "Roskakatos",
-                       "Hirsikalusteet", "Pihakeinu", "Maitolaituri", "Koristekaivo", "Höylähirsi"],
+        "areaServed": {"@type": "Country", "name": "Suomi"},
+        "knowsAbout": ["Pihasauna", "Hirsisauna", "Pihavarasto", "Puuvaja", "Leikkimökki", "Ulko-WC", "Roskakatos",
+                       "Hirsikalusteet", "Maitolaituri", "Koristekaivo", "Höylähirsi"],
     }
 
 
@@ -503,7 +509,7 @@ def build_home():
     steps = "".join(f'<li class="rv" style="--d:{i * 60}ms"><span class="n">{i + 1}</span><h3>{t}</h3><p>{d}</p></li>'
                     for i, (t, d) in enumerate(L["steps"]))
     body = f'''<section class="xhero"><div class="xhero-in">
-  <div class="xhero-img">{img("pihasauna-jarvi-ai", L["P"]["pihasauna"]["card"], "100vw", eager=True, style="object-position:60% 55%")}</div>
+  <div class="xhero-img">{img("tuomas20-2", L["P"]["pihasauna"]["card"], "100vw", eager=True, style="object-position:50% 30%")}</div>
   <div class="xhero-b">
     <h1>{L["hero_h1"]}</h1>
     <div class="xhero-side">
@@ -523,18 +529,18 @@ def build_home():
     <h2>{L["why_h"]}</h2>
     <ul class="why">{why}</ul>
   </div>
-  <figure class="map rv">{svg_map()}<figcaption><b>{L["map_label"]}</b><span>{L["map_note"]}</span></figcaption></figure>
+  <figure class="split-img why-img rv">{img(L["why_img"][0], L["why_img"][1], "(max-width:900px) 100vw, 45vw")}</figure>
 </div></section>
 
 <section class="sec"><div class="wrap">
   <div class="process">
-    <figure class="process-img rv">{img("tyopaja-ai", L["steps"][2][0], "(max-width:900px) 100vw, 45vw")}</figure>
+    <figure class="process-img rv">{img(L["steps_img"][0], L["steps_img"][1], "(max-width:900px) 100vw, 45vw")}</figure>
     <div class="process-b"><h2>{L["steps_h"]}</h2><ol class="steps">{steps}</ol>
       <div class="btns">{btn(L["ui"]["quote"], L["paths"]["quote"] + "#lomake")}</div></div>
   </div>
 </div></section>
 {contact_section()}'''
-    page(L["home"], L["home_title"], L["home_desc"], body, preload="pihasauna-jarvi-ai", cls="home")
+    page(L["home"], L["home_title"], L["home_desc"], body, preload="tuomas20-2", cls="home")
 
 
 def model_block(key, i, m):
@@ -565,7 +571,7 @@ def build_product(key):
     hero_img = p[3]
     pr = price_html(cat_price(key), "price hero-price") if SHOW_PRICES else ""
     ctas = f'<div class="btns">{btn(L["ui"]["quote"], quote_url(key))}{btn_call()}</div>'
-    body = hero(P["h1"], P["lead"], hero_img, P["card"], "55% 50%", ctas, pr)
+    body = hero(P["h1"], P["lead"], hero_img, P["card"], P.get("hero_pos", "55% 50%"), ctas, pr)
     intro = "".join(f'<p{" class=big" if i == 0 else ""}>{t}</p>' for i, t in enumerate(P["intro"]))
     body += f'''<section class="sec"><div class="wrap split">
   <div class="split-txt rv"><h2>{P["intro_h"]}</h2>{intro}</div>
@@ -578,6 +584,9 @@ def build_product(key):
     models = "".join(model_block(key, i, m) for i, m in enumerate(P["models"]))
     vat = f'<p class="muted small vat">{L["ui"]["vat"]}</p>' if SHOW_PRICES else ""
     body += f'<section class="sec pt0" id="mallit"><div class="wrap">{sec_head(P["models_h"])}<div class="models">{models}</div>{vat}</div></section>'
+    if P.get("gallery"):
+        gal = "".join(f'<a class="g rv" href="{src_of(n)}" data-lb="{esc(a)}">{img(n, a, "(max-width:700px) 50vw, 25vw")}</a>' for n, a in P["gallery"])
+        body += f'<section class="sec pt0"><div class="wrap">{sec_head(P["gallery_h"])}<div class="gal model-gal">{gal}</div></div></section>'
     if P.get("band"):
         b_img, b_h, b_p = P["band"]
         body += f'''<section class="sec pt0"><div class="wrap"><a class="band rv" href="{quote_url(key)}"><div class="band-img">{img(b_img, b_h, "100vw")}</div>
@@ -605,10 +614,10 @@ def build_hub():
     crumbs = [(L["ui"]["home"], L["home"]), (L["nav"][1][0], url)]
     rows = "".join(f'''<a class="srow rv" href="{ppath(k)}"><div class="srow-img">{img(PROD[k][3], P[k]["card"], "(max-width:700px) 100vw, 30vw")}</div>
   <div class="srow-b"><h2>{P[k]["name"]}</h2><p>{P[k]["lead"]}</p>{price_html(cat_price(k))}</div><span class="srow-go">{icon("arrow")}</span></a>''' for k in BUILDINGS)
-    body = hero(H["h1"], H["lead"], "pihavarasto-ai", P["pihavarasto"]["card"], "50% 60%",
+    body = hero(H["h1"], H["lead"], H["img"][0], H["img"][1], "50% 60%",
                 f'<div class="btns">{btn(L["ui"]["quote"], quote_url())}{btn_call()}</div>')
     body += f'<section class="sec"><div class="wrap"><div class="srows">{rows}</div></div></section>{contact_section()}'
-    page(url, H["title"], H["desc"], body, schema=[breadcrumb(crumbs)], preload="pihavarasto-ai")
+    page(url, H["title"], H["desc"], body, schema=[breadcrumb(crumbs)], preload=H["img"][0])
 
 
 def build_company():
@@ -619,7 +628,7 @@ def build_company():
     mat = "".join(f"<tr><th>{a}</th><td>{b}</td></tr>" for a, b in C["mat"])
     deliv = "".join(f'<li class="rv">{icon(ic, "ic why-ic")}<div><h3>{a}</h3><p>{b}</p></div></li>'
                     for (a, b), ic in zip(C["deliv"], ["log", "ruler", "truck"]))
-    body = hero(C["h1"], C["lead"], "tyopaja-ai", L["steps"][2][0], "50% 50%",
+    body = hero(C["h1"], C["lead"], C["img"][0], C["img"][1], "50% 50%",
                 f'<div class="btns">{btn(L["ui"]["quote"], quote_url())}{btn_call()}</div>')
     body += f'''<section class="sec"><div class="wrap split">
   <div class="split-txt rv">{ps}</div>
@@ -627,11 +636,11 @@ def build_company():
 </div></section>
 <section class="sec alt"><div class="wrap why-grid">
   <div class="why-txt"><h2>{C["deliv_h"]}</h2><ul class="why">{deliv}</ul></div>
-  <figure class="map rv">{svg_map()}<figcaption><b>{L["map_label"]}</b><span>{L["map_note"]}</span></figcaption></figure>
+  <figure class="split-img why-img rv">{img(C["deliv_img"][0], C["deliv_img"][1], "(max-width:900px) 100vw, 45vw")}</figure>
 </div></section>
 <section class="sec"><div class="wrap">{sec_head(L["products_h"])}{product_tiles([p[0] for p in PRODUCTS])}</div></section>
 {contact_section()}'''
-    page(url, C["title"], C["desc"], body, schema=[breadcrumb(crumbs)], preload="tyopaja-ai")
+    page(url, C["title"], C["desc"], body, schema=[breadcrumb(crumbs)], preload=C["img"][0])
 
 
 def quote_config():
@@ -645,9 +654,9 @@ def quote_config():
             models[0].update(w=2.1, l=4.2)
             models[1].update(w=2.0, l=3.0)
         if key == "leikkimokki":
-            models[1]["noplan"] = True
+            models[1].update(noplan=True, np=True)
         if typ == "count":
-            ip = {"kalusteet": [580, None, None, None, None], "koristeet": [650, 585, 180]}[key]  # vain ilmoitetut hinnat
+            ip = ITEM_PRICES[key]  # vain asiakkaan ilmoittamat hinnat
             models = [{"n": n, "p": pp if SHOW_PRICES else None} for n, pp in zip(Q["items"][key], ip)]
         out.append({"k": key, "n": P[key]["card"], "img": src_of(im, 0), "p": cat_price(key) if SHOW_PRICES else None, "t": typ,
                     "w": w, "l": l, "m": models, "x": Q["extras_by"][key]})
@@ -784,7 +793,7 @@ def icon_png(size):
 
 def og_image():
     W, H = 1200, 630
-    bg = ImageOps.fit(Image.open(IMG_SRC["pihasauna-jarvi-ai"]).convert("RGB"), (W, H), Image.LANCZOS, centering=(.6, .5))
+    bg = ImageOps.fit(Image.open(IMG_SRC["tuomas20-2"]).convert("RGB"), (W, H), Image.LANCZOS, centering=(.6, .5))
     ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(ov)
     for x in range(W):
