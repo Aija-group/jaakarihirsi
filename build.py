@@ -509,7 +509,7 @@ def build_home():
     steps = "".join(f'<li class="rv" style="--d:{i * 60}ms"><span class="n">{i + 1}</span><h3>{t}</h3><p>{d}</p></li>'
                     for i, (t, d) in enumerate(L["steps"]))
     body = f'''<section class="xhero"><div class="xhero-in">
-  <div class="xhero-img">{img("tuomas20-2", L["P"]["pihasauna"]["card"], "100vw", eager=True, style="object-position:50% 30%")}</div>
+  <div class="xhero-img">{img("sauna-hero", L["P"]["pihasauna"]["card"], "100vw", eager=True, style="object-position:50% 60%")}</div>
   <div class="xhero-b">
     <h1>{L["hero_h1"]}</h1>
     <div class="xhero-side">
@@ -540,7 +540,7 @@ def build_home():
   </div>
 </div></section>
 {contact_section()}'''
-    page(L["home"], L["home_title"], L["home_desc"], body, preload="tuomas20-2", cls="home")
+    page(L["home"], L["home_title"], L["home_desc"], body, preload="sauna-hero", cls="home")
 
 
 def model_block(key, i, m):
@@ -793,7 +793,7 @@ def icon_png(size):
 
 def og_image():
     W, H = 1200, 630
-    bg = ImageOps.fit(Image.open(IMG_SRC["tuomas20-2"]).convert("RGB"), (W, H), Image.LANCZOS, centering=(.6, .5))
+    bg = ImageOps.fit(Image.open(IMG_SRC["sauna-hero"]).convert("RGB"), (W, H), Image.LANCZOS, centering=(.6, .5))
     ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(ov)
     for x in range(W):

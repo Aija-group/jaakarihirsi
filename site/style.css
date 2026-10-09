@@ -434,3 +434,5 @@ body.home .hdr-in { box-shadow: 0 10px 30px rgba(0, 0, 0, .18); }
 .gal .g:hover img { transform: scale(1.04); }
 .why-img img { aspect-ratio: 4 / 3.4; }
 @media (max-width: 700px) { .gal { grid-template-columns: 1fr 1fr; gap: 8px; } }
+
+@media (max-width: 700px) { body.home .xhero-img img { object-position: 74% 62% !important; } }

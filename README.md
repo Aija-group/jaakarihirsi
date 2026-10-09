@@ -46,7 +46,7 @@ Asiakkaan markkinointikumppani Groweo on asentanut vanhalle sivulle nämä, ja n
 - **Groweolle tiedoksi:** sivupolut ja lomakkeet muuttuvat (uusi tarjousvelho `/tarjouspyynto/`, kiitossivut `/kiitos/` ja `/sv/tack/`) → GTM-konversiotagit kannattaa tarkistaa julkaisun jälkeen.
 
 ## Kuvat
-Kaikki kuvat ovat asiakkaan omia: 87 kuvaa asiakkaan Drive-kansiosta 9.10.2026 (`_materiaali/` ei repossa) + 4 vanhalta sivulta (hiekkalaatikko, puulato-1/2, vanha postilaatikkoteline). Tekoälykuvat poistettu kokonaan (Äijä Groupin linjaus: ei AI-rakennuksia). Kuvat skaalattu max 1800 px.
+Kaikki kuvat ovat asiakkaan omia: 87 kuvaa asiakkaan Drive-kansiosta 9.10.2026 (`_materiaali/` ei repossa) + 4 vanhalta sivulta (hiekkalaatikko, puulato-1/2, vanha postilaatikkoteline). Etusivun pääkuva `sauna-hero` on asiakkaan oma kuva (Tuomas 20, tuomas20-2) Higgsfieldillä muokattuna: rakennus ennallaan, kuva levennetty 16:9:ksi, merkkikepit ja mutainen etuala poistettu, taivas kirkastettu. Muokkaamaton vaihtoehto: tuomas20-2; iltavalovaihtoehto `_materiaali/sauna-hero-vaihtoehto-ilta.jpg`. Muut tekoälykuvat poistettu kokonaan (Äijä Groupin linjaus: ei AI-rakennuksia). Kuvat skaalattu max 1800 px.
 Drive-kuvien tiedostonimet olivat satunnaisia (esim. "kkkk.jpeg") → lajiteltu tuotteittain silmämääräisesti. 3 kuvaa jätetty pois tekstipäällysteen vuoksi (asdf, ddddd, dsa).
 
 ## Vahvistettavaa asiakkaalta
