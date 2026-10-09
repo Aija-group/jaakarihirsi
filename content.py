@@ -33,7 +33,7 @@ BUILDINGS = ["pihavarasto", "huvimaja", "leikkimokki", "wc", "roskakatos"]
 
 # Vanhan sivun osoitteet → uudet (server.js / _redirects). Säilyneet: /pihasaunat, /piharakennukset, /hirsikalusteet, /pihakoristeet, /yhteystiedot, /sv/...
 REDIRECTS = {
-    "/evasteet/": "/tietosuoja/",
+    "/evasteet/": "/tietosuoja/#evasteet",
     "/sv/kontakt-1/": "/sv/kontakt/",
 }
 
@@ -53,7 +53,7 @@ T["fi"] = {
         "ask_price": "Hinta tarjouksella", "vat": "Hinnat sis. alv 25,5 %.", "more": "Lue lisää", "products": "Tuotteet",
         "other_products": "Muut tuotteet", "faq": "Usein kysyttyä", "ask_this": "Pyydä tarjous tästä", "gallery": "Kuvia toteutuksista",
         "home": "Etusivu", "close": "Sulje", "prev": "Edellinen", "next": "Seuraava", "company": "Yritys", "contact": "Yhteystiedot",
-        "privacy": "Tietosuoja", "weekdays": "Arkisin 7–18", "reach": "Meidät tavoittaa aina puhelimitse.",
+        "privacy": "Tietosuoja", "cookies": "Evästeasetukset", "weekdays": "Arkisin 7–18", "reach": "Meidät tavoittaa aina puhelimitse.",
         "demo": "Sivustoehdotus – Äijä Group. Tämä on esikatseluversio.", "open_map": "Avaa kartalla", "mobile_quote": "Tarjous",
         "made_in": "Tehty Kortesjärvellä kotimaisesta hirrestä.",
     },
@@ -396,9 +396,10 @@ T["fi"]["privacy"] = {
         ("Tietosisältö", "Nimi, puhelinnumero, sähköpostiosoite, paikkakunta sekä lomakkeella annetut tiedot tilattavasta tuotteesta."),
         ("Säilytys", "Tarjouspyyntöjä säilytetään niin kauan kuin se on asiakassuhteen ja kirjanpitolain kannalta tarpeen."),
         ("Luovutukset", "Tietoja ei luovuteta ulkopuolisille, paitsi viranomaisten niin edellyttäessä. Sivuston ja sähköpostin palveluntarjoajat käsittelevät tietoja lukuumme."),
-        ("Evästeet", "Sivusto ei käytä seuranta- tai markkinointievästeitä."),
+        ("Evästeet", "Sivusto käyttää evästeitä sivuston toimintaan, kävijäseurantaan (Google Analytics Google Tag Managerin kautta) ja chat-palveluun (Groweo). Analytiikka- ja markkinointievästeet asetetaan vain suostumuksellasi, jonka voit muuttaa milloin tahansa sivun alareunan Evästeasetukset-linkistä."),
         ("Rekisteröidyn oikeudet", "Sinulla on oikeus tarkastaa, korjata ja pyytää poistamaan tietosi sekä vastustaa käsittelyä. Voit tehdä valituksen tietosuojavaltuutetulle."),
     ],
+    "cookie_h": "Evästeseloste",
     "thanks_h": "Kiitos <em>viestistäsi!</em>", "thanks_p": "Palaamme asiaan mahdollisimman pian. Kiireellisissä asioissa soita 045 119 7289.",
     "nf_h": "Sivua ei <em>löytynyt</em>", "nf_p": "Sivusto on uudistunut, ja osa osoitteista on muuttunut.",
 }
@@ -417,7 +418,7 @@ T["sv"] = {
         "ask_price": "Pris enligt offert", "vat": "Priserna inkl. moms 25,5 %.", "more": "Läs mer", "products": "Produkter",
         "other_products": "Andra produkter", "faq": "Vanliga frågor", "ask_this": "Be om offert på denna", "gallery": "Bilder",
         "home": "Hem", "close": "Stäng", "prev": "Föregående", "next": "Nästa", "company": "Företaget", "contact": "Kontakt",
-        "privacy": "Dataskydd", "weekdays": "Vardagar 7–18", "reach": "Du når oss alltid per telefon.",
+        "privacy": "Dataskydd", "cookies": "Cookie-inställningar", "weekdays": "Vardagar 7–18", "reach": "Du når oss alltid per telefon.",
         "demo": "Webbplatsförslag – Äijä Group. Detta är en förhandsversion.", "open_map": "Öppna kartan", "mobile_quote": "Offert",
         "made_in": "Tillverkat i Kortesjärvi av inhemskt timmer.",
     },
@@ -758,9 +759,10 @@ T["sv"]["privacy"] = {
         ("Uppgifter", "Namn, telefonnummer, e-postadress, ort samt uppgifter om den beställda produkten som lämnats i formuläret."),
         ("Lagring", "Offertförfrågningar sparas så länge det behövs för kundrelationen och enligt bokföringslagen."),
         ("Utlämnande", "Uppgifterna lämnas inte ut till utomstående, utom när myndigheter kräver det. Leverantörerna av webbplatsen och e-posten behandlar uppgifter för vår räkning."),
-        ("Kakor", "Webbplatsen använder inga spårnings- eller marknadsföringskakor."),
+        ("Kakor", "Webbplatsen använder kakor för webbplatsens funktion, besöksstatistik (Google Analytics via Google Tag Manager) och chattjänsten (Groweo). Statistik- och marknadsföringskakor sätts endast med ditt samtycke, som du kan ändra när som helst via länken Cookie-inställningar längst ned på sidan."),
         ("Dina rättigheter", "Du har rätt att granska, rätta och begära radering av dina uppgifter samt att invända mot behandlingen. Du kan lämna klagomål till dataombudsmannen."),
     ],
+    "cookie_h": "Kakdeklaration",
     "thanks_h": "Tack för <em>ditt meddelande!</em>", "thanks_p": "Vi återkommer så snart som möjligt. I brådskande ärenden, ring 045 119 7289.",
     "nf_h": "Sidan <em>hittades inte</em>", "nf_p": "Webbplatsen har förnyats och en del adresser har ändrats.",
 }

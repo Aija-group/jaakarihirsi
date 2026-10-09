@@ -38,6 +38,15 @@ Vanhat osoitteet säilyivät (Duda ilman kauttaviivaa → server.js lisää kaut
 - Mallikohtaiset kuvagalleriat lightboxilla, FAQ (FAQPage-schema), soitto + tarjous -palkki mobiilissa.
 - Lomakkeet `yhteydenotto` ja `tarjous` → info@jaakarihirsi.com (NordicHostissa SMTP_*-muuttujat). Ruotsinkielinen lomake ohjaa `/sv/tack/`, aiherivillä "(svenska)".
 
+## Seuranta, evästeet ja chat (Groweo)
+Asiakkaan markkinointikumppani Groweo on asentanut vanhalle sivulle nämä, ja ne on siirretty uuteen sivuun samoilla tunnuksilla (`build.py`: `tracking_head()` jne.):
+- **Groweo-chatti** `engine.groweo.com/groweoApp/groweoApp.js`, workspaceid `69170e21fa3dbe6f156a884a` (joka sivulla, fi + sv)
+- **Google Tag Manager** `GTM-PTT7B5V` (GA4 `G-8FRK563X4T` dataLayerissa `ga4-id`, kuten vanhalla sivulla)
+- **Cookiebot** `55b15f94-16e4-4f7f-9de3-434403dc6c79`, blockingmode auto, Google consent mode oletuksena kaikki denied; kieli fi/sv sivun mukaan. Evästeseloste (CookieDeclaration) tietosuojasivulla `#evasteet`, footerissa Evästeasetukset-linkki.
+- Vain tuotantobuildissa (`python3 build.py`) – Netlify-/artifakti-esikatselussa ei seurantaa. Chatti ja banneri näkyvät vain jaakarihirsi.com-domainissa (Groweo/Cookiebot sidottu domainiin).
+- Vanha /evasteet (Fonectan vakioteksti) → `/tietosuoja/#evasteet`.
+- **Groweolle tiedoksi:** sivupolut ja lomakkeet muuttuvat (uusi tarjousvelho `/tarjouspyynto/`, kiitossivut `/kiitos/` ja `/sv/tack/`) → GTM-konversiotagit kannattaa tarkistaa julkaisun jälkeen.
+
 ## Kuvat
 63 asiakkaan omaa kuvaa vanhalta sivulta (kaikki tuotekuvat). Ne ovat pieniä (640 px) → käytetty vain malligallerioissa ja korteissa.
 Higgsfield-kuvat (gpt_image_2_5, nimessä `-ai`): hero-järvisauna, talvisauna, saunan sisäkuva, pihavarasto, huvimaja, leikkimökki, ulko-WC, roskakatos, maitolaituri, työpaja. Rakennukset pyydetty höylähirtenä (ei pyöröhirttä), jotta ne vastaavat asiakkaan tuotteita.

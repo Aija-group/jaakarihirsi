@@ -37,6 +37,38 @@ IMG_DIMS, IMG_WS = {}, {}
 YEAR = 2026
 TODAY = "2026-10-03"
 GREEN = (49, 113, 75)
+# Groweon asentamat seuranta ja chat (vanhalta sivulta 9.10.2026): GTM (GA4 tagin kautta), Cookiebot + Google consent mode, Groweo-chatti.
+# Vain tuotantobuildissa – ei Netlify-/artifakti-esikatselussa.
+TRACKING = not DEMO
+GTM_ID = "GTM-PTT7B5V"
+GA4_ID = "G-8FRK563X4T"
+COOKIEBOT_ID = "55b15f94-16e4-4f7f-9de3-434403dc6c79"
+GROWEO_WS = "69170e21fa3dbe6f156a884a"
+
+
+def tracking_head():
+    if not TRACKING:
+        return ""
+    return f'''<script data-cookieconsent="ignore">window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}
+gtag("consent","default",{{ad_personalization:"denied",ad_storage:"denied",ad_user_data:"denied",analytics_storage:"denied",functionality_storage:"denied",personalization_storage:"denied",security_storage:"denied",wait_for_update:500}});
+gtag("set","ads_data_redaction",true);gtag("set","url_passthrough",true);
+dataLayer.push({{"event":"pageload","ga4-id":"{GA4_ID}"}});</script>
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="{COOKIEBOT_ID}" data-culture="{L["lang"].upper()}" data-blockingmode="auto" type="text/javascript"></script>
+<script data-cookieconsent="ignore">(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}})(window,document,'script','dataLayer','{GTM_ID}');</script>'''
+
+
+def tracking_body_start():
+    if not TRACKING:
+        return ""
+    return (f'<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={GTM_ID}" height="0" width="0" '
+            'style="display:none;visibility:hidden"></iframe></noscript>')
+
+
+def tracking_body_end():
+    if not TRACKING:
+        return ""
+    return f'<script src="https://engine.groweo.com/groweoApp/groweoApp.js" workspaceid="{GROWEO_WS}" data-cookieconsent="ignore"></script>'
+
 L = T["fi"]  # nykyinen kieli (asetetaan build_lang():ssa)
 
 # Sivuparit hreflangia ja kielivalitsinta varten: avain -> (fi, sv)
@@ -222,7 +254,7 @@ def footer():
         <li>{COMPANY["street"]}<br>{COMPANY["zip"]} {COMPANY["city"]}</li><li>{u["weekdays"]}</li></ul></div>
     </div>
     <div class="ftr-bottom"><span>© {YEAR} {COMPANY["name"]} · Y-tunnus {COMPANY["ytunnus"]}</span>
-      <span><a href="{L["paths"]["company"]}">{u["company"]}</a> · <a href="{L["paths"]["privacy"]}">{u["privacy"]}</a> · <a href="{ppath("home", L["other"])}" lang="{L["other"]}">{L["other_label"]}</a></span></div>
+      <span><a href="{L["paths"]["company"]}">{u["company"]}</a> · <a href="{L["paths"]["privacy"]}">{u["privacy"]}</a> · {f'<a href="javascript:Cookiebot.renew()">{u["cookies"]}</a> · ' if TRACKING else ""}<a href="{ppath("home", L["other"])}" lang="{L["other"]}">{L["other_label"]}</a></span></div>
     {demo}
   </div>
 </footer>
@@ -298,21 +330,24 @@ def page(path, title, description, body, schema=None, noindex=False, cls="", pre
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+{tracking_head()}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" data-cookieconsent="ignore">
 <link rel="stylesheet" href="/style.css?v={VERSION}">
 {pre}
 {ld}
 </head>
 <body class="{cls}">
+{tracking_body_start()}
 <a class="skip" href="#main">{L["ui"]["skip"]}</a>
 {header(path)}
 <main id="main">
 {body}
 </main>
 {footer()}
-<script src="/app.js?v={VERSION}" defer></script>
+<script src="/app.js?v={VERSION}" defer data-cookieconsent="ignore"></script>
+{tracking_body_end()}
 </body>
 </html>
 '''
@@ -707,6 +742,9 @@ def build_contact():
 def build_simple():
     R = L["privacy"]
     secs = "".join(f"<h2>{i + 1}. {h}</h2><p>{t}</p>" for i, (h, t) in enumerate(R["sections"]))
+    if TRACKING:
+        secs += (f'<h2 id="evasteet">{R["cookie_h"]}</h2><p><a class="btn btn-line" href="javascript:Cookiebot.renew()">{L["ui"]["cookies"]}</a></p>'
+                 f'<script id="CookieDeclaration" src="https://consent.cookiebot.com/{COOKIEBOT_ID}/cd.js" data-culture="{L["lang"].upper()}" type="text/javascript" async></script>')
     body = plain_hero(R["h1"], R["lead"]) + f'<section class="sec pt0"><div class="wrap narrow prose">{secs}</div></section>'
     page(L["paths"]["privacy"], R["title"], R["lead"], body)
     ok = plain_hero(R["thanks_h"], R["thanks_p"]).replace(
