@@ -57,3 +57,16 @@ Drive-kuvien tiedostonimet olivat satunnaisia (esim. "kkkk.jpeg") → lajiteltu 
 5. **Verkkokauppa** vilkasstore ei toimi → linkit poistettu.
 6. Velhon lisävalinnat (terassi, kuisti, pariovet, ikkuna, maalaus…) ovat toiveita tarjouspyyntöön, eivät lupauksia.
 7. Ennen DNS-muutosta: M365-postin tietueet (MX, autodiscover, SPF, DKIM) talteen Route 53:sta.
+
+## Siirto Fonectalta (Oiko) NordicHostiin
+Vanha sivu on Fonectan Oiko-palvelussa (Duda-alusta, `s.eu-multiscreensite.com`), ei webhotellissa → sivuston tiedostoja ei siirretä, uusi sivu tulee GitHubista.
+- **Domain** jaakarihirsi.com: Amazon Registrar (Fonectan hallinnoima), DNS Route 53, siirtolukko päällä (`clientTransferProhibited`), voimassa 30.1.2027 asti. Asiakas pyytää Fonectalta siirtolukon poiston + **siirtokoodin (auth/EPP-koodi)** → NordicHost siirtää domainin. .com, ei Traficomin siirtoavainta.
+- **Posti** on Microsoft 365:ssä → postilaatikot eivät siirry minnekään, vain DNS-tietueet kopioidaan uuteen DNS:ään ENNEN nimipalvelinvaihtoa (tilanne 13.10.2026):
+  - `MX @ 0 jaakarihirsi-com.mail.protection.outlook.com`
+  - `TXT @ "v=spf1 include:spf.protection.outlook.com -all"` ja `TXT @ "MS=ms13895537"`
+  - `CNAME autodiscover → autodiscover.outlook.com`
+  - `CNAME enterpriseregistration → enterpriseregistration.windows.net`
+  - `CNAME lyncdiscover → webdir.online.lync.com`
+  - DKIM- ja DMARC-tietueita ei ole.
+- Selvitä, onko M365-tili asiakkaan oma vai Fonectan kautta laskutettu (jos Fonectan, varmista ettei posti katkea Oiko-sopimuksen päättyessä).
+- Fonectan sopimus irtisanotaan vasta, kun uusi sivu ja posti toimivat (tarkista määräaika/irtisanomisaika).
