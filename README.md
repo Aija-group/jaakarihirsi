@@ -42,7 +42,7 @@ Asiakkaan markkinointikumppani Groweo on asentanut vanhalle sivulle nämä, ja n
 - **Groweo Smart Flow** `<div id="gw-inpage-flow">` etusivulla tuotekorttien jälkeen ja tuotesivuilla mallien jälkeen; **Smart Chat** `<div id="gw-inpage-chat">` samoilla sivuilla ennen yhteydenotto-osiota (Groweon ohje 23.10.2026: Flow näkyville, Chat alemmas). `groweo_embed()` build.py:ssä; osio on tyhjä kunnes Groweon skripti täyttää sen, ja CSS piilottaa tyhjän osion välin.
 - **Google Tag Manager** `GTM-PTT7B5V` (GA4 `G-8FRK563X4T` dataLayerissa `ga4-id`, kuten vanhalla sivulla)
 - **Cookiebot** `55b15f94-16e4-4f7f-9de3-434403dc6c79`, blockingmode auto, Google consent mode oletuksena kaikki denied; kieli fi/sv sivun mukaan. Evästeseloste (CookieDeclaration) tietosuojasivulla `#evasteet`, footerissa Evästeasetukset-linkki.
-- Vain tuotantobuildissa (`python3 build.py`) – Netlify-/artifakti-esikatselussa ei seurantaa. Chatti ja banneri näkyvät vain jaakarihirsi.com-domainissa (Groweo/Cookiebot sidottu domainiin).
+- GTM ja Cookiebot vain tuotantobuildissa (`python3 build.py`). Groweon skripti ja upotukset ovat myös Netlify-esikatselussa tarkistusta varten (`GROWEO=0 HOSTING=netlify python3 build.py` jättää ne pois). Chatti ja banneri näkyvät vain jaakarihirsi.com-domainissa (Groweo/Cookiebot sidottu domainiin).
 - Vanha /evasteet (Fonectan vakioteksti) → `/tietosuoja/#evasteet`.
 - **Groweolle tiedoksi:** sivupolut ja lomakkeet muuttuvat (uusi tarjousvelho `/tarjouspyynto/`, kiitossivut `/kiitos/` ja `/sv/tack/`) → GTM-konversiotagit kannattaa tarkistaa julkaisun jälkeen.
 
