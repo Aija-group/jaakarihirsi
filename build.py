@@ -42,6 +42,9 @@ GREEN = (49, 113, 75)
 TRACKING = not DEMO
 # Groweon chatti ja upotukset näkyvät myös Netlify-esikatselussa (GROWEO=0 piilottaa), jotta asiakas ja Groweo voivat tarkistaa ne.
 GROWEO = TRACKING or os.environ.get("GROWEO", "1") == "1"
+# Sivun sisäiset upotukset (Smart Flow, Smart Chat) jäivät netlify.app-osoitteessa tyhjiksi (24.10.2026, todennäköisesti Groweon domain-rajaus)
+# → esikatselussa vain kelluva chatti, upotukset kun GROWEO_INPAGE=1 (esim. kun Groweo on sallinut esikatseluosoitteen).
+GROWEO_INPAGE = TRACKING or os.environ.get("GROWEO_INPAGE") == "1"
 GTM_ID = "GTM-PTT7B5V"
 GA4_ID = "G-8FRK563X4T"
 COOKIEBOT_ID = "55b15f94-16e4-4f7f-9de3-434403dc6c79"
@@ -69,7 +72,7 @@ def tracking_body_start():
 def groweo_embed(kind):
     """Groweon upotukset (23.10.2026): Smart Flow etusivulle ja tuotesivuille näkyvälle paikalle, Smart Chat alemmas.
     Skripti täyttää divin; tyhjä osio ei vie tilaa."""
-    if not GROWEO:
+    if not GROWEO_INPAGE:
         return ""
     return f'<section class="sec pt0 gw"><div class="wrap"><div id="gw-inpage-{kind}"></div></div></section>'
 
