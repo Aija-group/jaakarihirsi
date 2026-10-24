@@ -436,3 +436,7 @@ body.home .hdr-in { box-shadow: 0 10px 30px rgba(0, 0, 0, .18); }
 @media (max-width: 700px) { .gal { grid-template-columns: 1fr 1fr; gap: 8px; } }
 
 @media (max-width: 700px) { body.home .xhero-img img { object-position: 74% 62% !important; } }
+
+/* Groweon upotukset: tyhjä osio ei vie tilaa ennen kuin skripti täyttää sen */
+.gw:not(:has(#gw-inpage-flow > *, #gw-inpage-chat > *)) { padding: 0; }
+.gw > .wrap > div { width: 100%; }

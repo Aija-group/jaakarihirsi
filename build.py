@@ -64,6 +64,14 @@ def tracking_body_start():
             'style="display:none;visibility:hidden"></iframe></noscript>')
 
 
+def groweo_embed(kind):
+    """Groweon upotukset (23.10.2026): Smart Flow etusivulle ja tuotesivuille näkyvälle paikalle, Smart Chat alemmas.
+    Vain tuotantobuildissa; skripti täyttää divin, joten esikatselussa osio jätetään pois."""
+    if not TRACKING:
+        return ""
+    return f'<section class="sec pt0 gw"><div class="wrap"><div id="gw-inpage-{kind}"></div></div></section>'
+
+
 def tracking_body_end():
     if not TRACKING:
         return ""
@@ -523,7 +531,7 @@ def build_home():
   {sec_head(L["products_h"], L["products_p"])}
   {product_tiles([p[0] for p in PRODUCTS])}
 </div></section>
-
+{groweo_embed("flow")}
 <section class="sec alt"><div class="wrap why-grid">
   <div class="why-txt">
     <h2>{L["why_h"]}</h2>
@@ -539,6 +547,7 @@ def build_home():
       <div class="btns">{btn(L["ui"]["quote"], L["paths"]["quote"] + "#lomake")}</div></div>
   </div>
 </div></section>
+{groweo_embed("chat")}
 {contact_section()}'''
     page(L["home"], L["home_title"], L["home_desc"], body, preload="sauna-hero", cls="home")
 
@@ -584,6 +593,7 @@ def build_product(key):
     models = "".join(model_block(key, i, m) for i, m in enumerate(P["models"]))
     vat = f'<p class="muted small vat">{L["ui"]["vat"]}</p>' if SHOW_PRICES else ""
     body += f'<section class="sec pt0" id="mallit"><div class="wrap">{sec_head(P["models_h"])}<div class="models">{models}</div>{vat}</div></section>'
+    body += groweo_embed("flow")
     if P.get("gallery"):
         gal = "".join(f'<a class="g rv" href="{src_of(n)}" data-lb="{esc(a)}">{img(n, a, "(max-width:700px) 50vw, 25vw")}</a>' for n, a in P["gallery"])
         body += f'<section class="sec pt0"><div class="wrap">{sec_head(P["gallery_h"])}<div class="gal model-gal">{gal}</div></div></section>'
@@ -595,6 +605,7 @@ def build_product(key):
         body += f'<section class="sec pt0"><div class="wrap narrow">{sec_head(L["ui"]["faq"])}{faq_html(P["faq"])}</div></section>'
     others = [k for k in PROD if k != key]
     body += f'<section class="sec pt0"><div class="wrap"><h2 class="h-sm">{L["ui"]["other_products"]}</h2>{product_tiles(others, "tiles tiles-sm")}</div></section>'
+    body += groweo_embed("chat")
     body += contact_section(product=key)
     offers = [{"@type": "Offer", "price": m[3], "priceCurrency": "EUR", "name": m[0],
                "priceSpecification": {"@type": "PriceSpecification", "minPrice": m[3], "priceCurrency": "EUR", "valueAddedTaxIncluded": True}}

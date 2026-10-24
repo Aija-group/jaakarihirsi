@@ -39,6 +39,7 @@ Vanhat osoitteet säilyivät. `/evasteet` → `/tietosuoja/#evasteet`. Kanoninen
 ## Seuranta, evästeet ja chat (Groweo)
 Asiakkaan markkinointikumppani Groweo on asentanut vanhalle sivulle nämä, ja ne on siirretty uuteen sivuun samoilla tunnuksilla (`build.py`: `tracking_head()` jne.):
 - **Groweo-chatti** `engine.groweo.com/groweoApp/groweoApp.js`, workspaceid `69170e21fa3dbe6f156a884a` (joka sivulla, fi + sv)
+- **Groweo Smart Flow** `<div id="gw-inpage-flow">` etusivulla tuotekorttien jälkeen ja tuotesivuilla mallien jälkeen; **Smart Chat** `<div id="gw-inpage-chat">` samoilla sivuilla ennen yhteydenotto-osiota (Groweon ohje 23.10.2026: Flow näkyville, Chat alemmas). `groweo_embed()` build.py:ssä; osio on tyhjä kunnes Groweon skripti täyttää sen, ja CSS piilottaa tyhjän osion välin.
 - **Google Tag Manager** `GTM-PTT7B5V` (GA4 `G-8FRK563X4T` dataLayerissa `ga4-id`, kuten vanhalla sivulla)
 - **Cookiebot** `55b15f94-16e4-4f7f-9de3-434403dc6c79`, blockingmode auto, Google consent mode oletuksena kaikki denied; kieli fi/sv sivun mukaan. Evästeseloste (CookieDeclaration) tietosuojasivulla `#evasteet`, footerissa Evästeasetukset-linkki.
 - Vain tuotantobuildissa (`python3 build.py`) – Netlify-/artifakti-esikatselussa ei seurantaa. Chatti ja banneri näkyvät vain jaakarihirsi.com-domainissa (Groweo/Cookiebot sidottu domainiin).
