@@ -18,3 +18,4 @@ Hero 9.10.: asiakkaan oma saunakuva (tuomas20-2) muokattu Higgsfield gpt_image_2
 **How to apply:** muokkaa suoraan Jaakarihirsi/-kansiossa (git-repo), python3 build.py, commit + push; launch.json "jaakarihirsi-site" portti 8995.
 
 - 2026-10-24: Groweon asennuskoodit (Jonni Sairio, Groweo) lisätty: Global-skripti oli jo (sama workspace), uutena Smart Flow -div etusivulle ja tuotesivuille tuotekorttien/mallien jälkeen ja Smart Chat -div samoille sivuille ennen yhteydenottoa. Vain tuotantobuildissa.
+- 2026-10-26: Asiakas hyväksyi sivut julkaistavaksi. Pyyntö: pariovellinen varastorakennus (kuvat sauna-2 ja tuomas15-4, sama rakennus) siirrettiin pihasaunoista pihavarastoihin (varasto-15, varasto-16). Asiakas kysyi irtisanomisesta → ohje: vasta kun domain siirretty ja uusi sivu toimii.
